@@ -22,6 +22,8 @@
 						    <input required="required" name="subject" placeholder="제목을 입력하세요" size="50" value="[답글]">
 							<input type="hidden" name="num" value="${article.num}">
 							<input type="hidden" name="ref" value="${article.ref}">
+							<input type="hidden" name="step" value="${article.step}">
+							<input type="hidden" name="lev" value="${article.lev}">
 						</td>
 					</tr>
 				</c:if> 

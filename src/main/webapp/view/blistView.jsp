@@ -26,7 +26,7 @@
 		</table>
 	</c:when>
 	<c:when test = "${ fn:length(articles) > 0 }" >
-	<table style = "margin:0 auto; width: 900;" border="1">
+	<table style = "margin:0 auto; width: 1200px;" border="1">
 		<tr>
 			<th>제목</th>
 			<th>작성자</th>
@@ -36,7 +36,21 @@
 		</tr>
 		<c:forEach var="article" items="${articles}">
 		<tr>
-			<td align="center"><a href="jboard?bctr=contentAct&num=${article.num}">${article.subject}</a></td>
+			<td align="center">
+				<c:choose>
+					<c:when test = "${article.lev == 0}">
+						<img src = "images/level.gif" width="5px">
+					</c:when>
+					<c:when test = "${article.lev > 0}">
+						<img src = "images/level.gif" width="${article.lev*10}px">
+						<img src = "images/re.gif">
+					</c:when>
+				</c:choose>
+					<a href="jboard?bctr=contentAct&num=${article.num}">${article.subject}</a>
+				<c:if test="${article.readcount>=10}">
+					<img src="images/hot.gif">
+				</c:if>
+			</td>
 			<td align="center"><a href="mailto:${article.email}">${article.writer}</a></td>
 			<td align="center">${article.reg_date}</td>
 			<td align="center">${article.readcount}</td>

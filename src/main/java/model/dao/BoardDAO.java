@@ -33,9 +33,13 @@ public class BoardDAO {
 			// String sql = "select * from board";
 			String sql  = "select num, writer, subject, content, reg_date, ";
 				   sql += "readcount, lev, step, ref, ip, passwd, email ";
-				   sql += "from board";
+				   sql += "from board ";
 			// 단일 회원정보 가져올 때
-			if(num != 0) { sql += " where num = ?"; }
+			if(num != 0) {
+				   sql += "where num = ? ";
+			}
+			       sql += "order by step asc, ref desc, num desc ";
+			
 			pstmt=conn.prepareStatement(sql);
 			if(num != 0) { pstmt.setInt(1, num); }
 			rs = pstmt.executeQuery();
@@ -85,12 +89,20 @@ public class BoardDAO {
 			if(rs.next()) {
 				newNum = rs.getInt("num");
 			}
-			article.setNum(newNum);   
-			article.setRef(newNum);
+			
+			// 답글
+			if(article.getNum()!=0 && article.getRef()!=0) {
+				article.setStep(article.getStep()+1);
+				article.setLev(article.getLev()+1);
+			} else {
+				article.setRef(newNum);
+			}
+			article.setNum(newNum);
+			
 			if(pstmt != null) pstmt.close();
 			
-			sql  = "insert into Board(num, writer, subject, content, reg_date, lev, step, ref, ip, passwd, email)";
-			sql += "values(?, ?, ?, ?, sysdate(), ?, ?, ?, ?, ?, ?)";
+			sql   = "insert into Board(num, writer, subject, content, reg_date, lev, step, ref, ip, passwd, email) ";
+			sql  += "values(?, ?, ?, ?, sysdate(), ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, article.getNum());
@@ -158,7 +170,7 @@ public class BoardDAO {
 		try {
 			DBConnector dbins = DBConnector.getInstance();
 			conn = dbins.getConnection();
-			String sql = "delete from Board where num=?";
+			String sql = "delete from Board where num = ?";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setInt(1, article.getNum());
 			result = pstmt.execute();

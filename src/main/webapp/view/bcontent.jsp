@@ -37,14 +37,16 @@
 				<input type="button" value="글수정" onclick="checkPass('${article.passwd}', 'U')">
 				<input type="button" value="글삭제" onclick="checkPass('${article.passwd}', 'D')">
 				<input type="button" value="글쓰기" onclick="location.href='jboard?bctr=write'">
-				<input type="button" value="답글" onclick="jvajscript:reply()">
-				<input type="button" value="글목록" onclick="jvajscript:location.href='jboard?bctr=list'">
+				<input type="button" value="답글" onclick="javascript:reply()">
+				<input type="button" value="글목록" onclick="javascript:location.href='jboard?bctr=list'">
 			</td>
 		</tr>
 	</table>
 	<form action="" name="updateForm" method='post'>
 		<input type="hidden" name="num" value="${article.num}">
 		<input type="hidden" name="ref" value="${article.ref}">
+		<input type="hidden" name="step" value="${article.step}">
+		<input type="hidden" name="lev" value="${article.lev}">
 	</form>
 </body>
 </html>
